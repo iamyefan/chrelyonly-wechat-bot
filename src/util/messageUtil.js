@@ -23,9 +23,6 @@ export function myOnMessage(message, room, bot) {
     return;
   }
   let apiItem = getApi(text);
-  console.log(apiItem, 'apiItem');
-  console.log(apiItem, 'apiItem');
-
   if (apiItem) {
     // 定义参数
     let params = {}
@@ -141,21 +138,33 @@ export function myOnMessage(message, room, bot) {
           ${res.data.data.Msg}
           `, talker)
       }else if (apiItem.type === 16) {
-        console.log(res,'返回的数据');
+      
         let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
         room.say(mp4, talker)
       }else if (apiItem.type === 17) {
+        let talkerS = talker
+        let data = res.data
         console.log(res.data,'返回的数据');
         try {
-          let mp4 = FileBox.fromUrl(res.data.video, "22.mp4")
-           room.say(mp4, talker).then().catch(err=> {
-            room.say('很抱歉,视频被ET打劫了,导致加载失败,请重新搜索', talker)
-           })
+          if(res.data.video) {
+            let mp4 = FileBox.fromUrl(data.video, "22.mp4")
+            room.say(mp4, talkerS).then().catch(err=> {
+              console.log(err,'报错了');
+             room.say(`很抱歉,关于${apiItem.msg}的视频传输失败,请直接浏览器内打开>>>>
+             结果标题: ${data.desc}
+             ----------------------
+             作者: ${data.author}
+             ----------------------
+             ${data.video}`, talkerS)
+            })
+          }else {
+            room.say(`没有找到关于${apiItem.msg}的资源,请重新搜索`, talker)
+          }
+        
         } catch (error) {
           
         }
       }else if (apiItem.type === 18) {
-        console.log(res.data,'返回的数据');
         let index = Math.floor(Math.random() * 10) + 1
         let mp4 = FileBox.fromBuffer(res.data.data[index].data.photoUrl.split('.mp4')[0]+'.mp4', "1233.mp4")
         room.say(mp4, talker)
@@ -163,7 +172,6 @@ export function myOnMessage(message, room, bot) {
         // room.say(mp4)
       }
       else if (apiItem.type === 19) {
-        console.log(res.data,'返回的数据');
         let img = FileBox.fromBuffer(res.data, "1.png")
         room.say(img, talker)
         // let index = Math.floor(Math.random() * 10) + 1

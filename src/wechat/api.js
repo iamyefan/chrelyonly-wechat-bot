@@ -67,6 +67,7 @@ export  function onMessage(message,bot) {
                     setCache(message.id,JSON.stringify(cacheJson))
                 })
             }
+            
             // 5 是收藏表情,不知如何解密微信的表情包连接
             // if(txtType === 5){
             //     // 保存缓存
@@ -85,9 +86,17 @@ export  function onMessage(message,bot) {
                     type: 7,
                     text: msg
                 }
-                setCache(message.id,JSON.stringify(cacheJson))
-                // 自定义文本回复内容
-                myOnMessage(message,room,bot)
+                if(message.text().includes('@ㅤ龙骑士的龙')) {
+                  console.log(room,'room');
+                  console.log(bot,'bot');
+                  let talker = message.talker()
+                  room.say('艾特你龙爹干啥!!!!', talker)
+                }else {
+                  setCache(message.id,JSON.stringify(cacheJson))
+                  // 自定义文本回复内容
+                  myOnMessage(message,room,bot)
+                }
+               
 
             }
             if(txtType === 13){

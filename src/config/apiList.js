@@ -76,13 +76,13 @@ export const apiList = [
     requestType: 3,
     des: "捣+QQ号"
   },
-  {
-    name: "玩",
-    url: "https://api.lolimi.cn/API/face_play/",
-    type: 8,
-    requestType: 3,
-    des: "玩+QQ号"
-  },
+  // {
+  //   name: "玩",
+  //   url: "https://api.lolimi.cn/API/face_play/",
+  //   type: 8,
+  //   requestType: 3,
+  //   des: "玩+QQ号"
+  // },
   {
     name: "你可能需要它",
     url: "https://api.lolimi.cn/API/face_need/",
