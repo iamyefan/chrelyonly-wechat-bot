@@ -9,7 +9,7 @@ export function myOnMessage(message, room, bot) {
   let text = message.text();
   // 获取发送者
   let talker = message.talker()
-  if (text.toString().includes("菜单")) {
+  if (text.toString().includes("看看菜单")) {
     let menu = "菜单：\n";
     for (let i = 0; i < getAllApiName().length; i++) {
       menu += (i + 1) + "." + getAllApiName()[i] + "\n";
@@ -18,10 +18,10 @@ export function myOnMessage(message, room, bot) {
     return;
   }
   // 水群王
-  if (text.toString().includes("水群王")) {
-    getWaterGroupsWin(room, bot)
-    return;
-  }
+  // if (text.toString().includes("水群王")) {
+  //   getWaterGroupsWin(room, bot)
+  //   return;
+  // }
   let apiItem = getApi(text);
   if (apiItem) {
     // 定义参数
@@ -41,16 +41,30 @@ export function myOnMessage(message, room, bot) {
         msg: apiItem.msg,
         n: n,
       }
-     
-    
+
+
     } else {
-      if(apiItem.type == 17) {
+      if (apiItem.type == 17) {
         params = {
           msg: apiItem.msg,
           n: Math.floor(Math.random() * 10) + 1
         }
-        console.log(params,'请求参数');
-      }else {
+      } else if (apiItem.type == 28) {
+        params = {
+          msg: apiItem.msg,
+        }
+      } else if (apiItem.type == 29) {
+        let arr = apiItem.msg.split(" ")
+        for (let i = 0; i < arr.length; i++) {
+          const item = arr[i];
+          if(i == 0) {
+            params[`msg`] = item
+          }else {
+            params[`msg${i}`] = item
+          }
+        }
+        params.rgb1 = 2
+      } else {
         params = {
           "QQ": apiItem.msg,
           "name": apiItem.msg,
@@ -59,7 +73,7 @@ export function myOnMessage(message, room, bot) {
         }
       }
       //api.lolimi.cn
-    
+
     }
     http(apiItem.url, "get", params, apiItem.requestType, {}).then(res => {
       if (apiItem.type === 1) {
@@ -137,36 +151,36 @@ export function myOnMessage(message, room, bot) {
         room.say(`让我们一起来读一下《${res.data.data.title}》吧》
           ${res.data.data.Msg}
           `, talker)
-      }else if (apiItem.type === 16) {
-      
+      } else if (apiItem.type === 16) {
+
         let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
         room.say(mp4, talker)
-      }else if (apiItem.type === 17) {
+      } else if (apiItem.type === 17) {
         let talkerS = talker
         let data = res.data
-        console.log(res.data,'返回的数据');
+        console.log(res.data, '返回的数据');
         try {
-          if(res.data.video) {
+          if (res.data.video) {
             let mp4 = FileBox.fromUrl(data.video, "22.mp4")
-            room.say(mp4, talkerS).then().catch(err=> {
-              console.log(err,'报错了');
-             room.say(`很抱歉,关于${apiItem.msg}的视频传输失败,请直接浏览器内打开>>>>
+            room.say(mp4, talkerS).then().catch(err => {
+              console.log(err, '报错了');
+              room.say(`很抱歉,关于${apiItem.msg}的视频传输失败,请直接浏览器内打开>>>>
              结果标题: ${data.desc}
              ----------------------
              作者: ${data.author}
              ----------------------
              ${data.video}`, talkerS)
             })
-          }else {
+          } else {
             room.say(`没有找到关于${apiItem.msg}的资源,请重新搜索`, talker)
           }
-        
+
         } catch (error) {
-          
+
         }
-      }else if (apiItem.type === 18) {
+      } else if (apiItem.type === 18) {
         let index = Math.floor(Math.random() * 10) + 1
-        let mp4 = FileBox.fromBuffer(res.data.data[index].data.photoUrl.split('.mp4')[0]+'.mp4', "1233.mp4")
+        let mp4 = FileBox.fromBuffer(res.data.data[index].data.photoUrl.split('.mp4')[0] + '.mp4', "1233.mp4")
         room.say(mp4, talker)
         // let mp4 = FileBox.fromBuffer(res.data, "23333.mp4")
         // room.say(mp4)
@@ -179,6 +193,50 @@ export function myOnMessage(message, room, bot) {
         // room.say(mp4, talker)
         // let mp4 = FileBox.fromBuffer(res.data, "23333.mp4")
         // room.say(mp4)
+      } else if (apiItem.type === 20 || apiItem.type === 21) {
+
+        let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
+        room.say(mp4, talker)
+      }
+      else if (apiItem.type === 22 || apiItem.type === 23) {
+
+        let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
+        room.say(mp4, talker)
+      } else if (apiItem.type === 24) {
+        let index = Math.floor(Math.random() * 35)
+        const fileBox = FileBox.fromUrl(res.data.images[index], "1.png")
+        console.log(fileBox, 'fileBox');
+        room.say(fileBox)
+      } else if (apiItem.type === 25) {
+        console.log(res.data, 'ddddd');
+        room.say(res.data, talker)
+      } else if (apiItem.type === 26) {
+
+        let mp3 = FileBox.fromBuffer(res.data, "我是IKUN.mp3")
+        room.say(mp3)
+      }
+      else if (apiItem.type === 27) {
+
+        let png = FileBox.fromBuffer(res.data, "1.png")
+        room.say(png)
+      }
+      else if (apiItem.type === 28) {
+        let mp3 = FileBox.fromUrl(res.data.music, "丁真说的话.mp3")
+        room.say(mp3)
+      }
+      else if (apiItem.type === 29) {
+        let img = FileBox.fromBuffer(res.data, "1.png")
+        room.say(img).catch(err=> {
+          console.log(err,'错误了');
+        })
+      }
+      else if (apiItem.type ===30) {
+        let mp3 = FileBox.fromUrl(res.data.music, "孙笑川说的话.mp3")
+        room.say(mp3)
+      }
+      else if (apiItem.type ===31) {
+        let text = res.data.mealwhat
+        room.say(text, talker)
       }
     })
   }
