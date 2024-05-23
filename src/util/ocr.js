@@ -7,7 +7,7 @@ export const readImage = async function (base64, room, user) {
     return_text: 0,
     only_rec: 0
   }, 2).then(async (res) => {
-    console.log(res.data.text, '识别结果')
+    console.log(res.data, '识别结果')
     let result = await setText(res.data.text)
     if (result.flag) {
       room.say(result.text, user)
@@ -54,9 +54,9 @@ function setText(txtArr) {
       let bjx =  arr.find(item => item.includes('铂金宝箱'))
       // 金砖
       if (jz.includes('万')) {
-        jzNum = (jz.split('×')[1] ||  jz.split('x')[1]).split('万')[0] * 10000
+        jzNum = (jz.split('×')[1] ||  jz.split('x')[1] || jz.split('X')[1]).split('万')[0] * 10000
       } else {
-        jzNum = jz.split('×')[1] ||  jz.split('x')[1]
+        jzNum = jz.split('×')[1] ||  jz.split('x')[1] || jz.split('X')[1]
       }
       if (jzNum < 250000) {
         text =`
@@ -66,7 +66,7 @@ function setText(txtArr) {
 金砖已足够,已经超出 ${(jzNum - 250000).toFixed(0)}个`
       }
       // 鱼竿
-      ygNum = yf.split('x')[1] ||  yf.split('×')[1]
+      ygNum = yf.split('x')[1] ||  yf.split('×')[1] ||  yf.split('X')[1]
       if (ygNum < 700) {
 text+=`
 鱼竿数量不足,缺少${(700 - ygNum).toFixed(0)}个`
@@ -75,7 +75,7 @@ text+=`
 鱼竿已足够,已经超出${(ygNum - 700).toFixed(0)}个`
       }
       // 招募令
-      zmlNum = zml.split('x')[1] ||  zml.split('×')[1]
+      zmlNum = zml.split('x')[1] ||  zml.split('×')[1] || zml.split('X')[1]
       if(zmlNum < 3300) {
 text+=`
 招募令数量不足,缺少${(3300 - zmlNum).toFixed(0)}个`
@@ -84,10 +84,10 @@ text+=`
 招募令数量已足够,已经超出${(zmlNum - 3300).toFixed(0)}个`  
       }
       // 宝箱
-      mzxNum = (mzx.split('x')[1] ||  mzx.split('×')[1]) * 1
-      qtxNum =( qtx.split('x')[1] ||  qtx.split('×')[1]) * 10
-      hjxNum = (hjx.split('x')[1] ||  hjx.split('×')[1]) * 20
-      bjxNum =(bjx.split('x')[1] ||  bjx.split('×')[1]) * 50
+      mzxNum = (mzx.split('x')[1] ||  mzx.split('×')[1] || mzx.split('X')[1]) * 1
+      qtxNum =( qtx.split('x')[1] ||  qtx.split('×')[1] ||  qtx.split('X')[1]) * 10
+      hjxNum = (hjx.split('x')[1] ||  hjx.split('×')[1] ||  hjx.split('X')[1]) * 20
+      bjxNum =(bjx.split('x')[1] ||  bjx.split('×')[1] ||  bjx.split('X')[1]) * 50
       bxjf = (mzxNum + qtxNum + hjxNum + bjxNum).toFixed(0)
       if(bxjf <29580) {
         let lun = ((29580 - bxjf) / 3480).toFixed(2)
@@ -105,7 +105,7 @@ text += `
 参考资源:金砖25万个,招募3300个,宝箱积分8.5轮(实际宝箱积分29580分),宝轮估算每轮3480积分(非酋算法),金鱼竿700个
 请根据实际情况分析
 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 
-数据来源自宸宇的小助手,仅供参考, 最终解释权归咸鱼之王所有!
+数据来源自宸宇的小助手,仅供参考!黑鬼算法,能通过本助手考验的人基本上拿鱼无疑! 最终解释权归咸鱼之王所有!
  🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 
       `
       obj.text = text

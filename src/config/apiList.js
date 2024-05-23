@@ -443,6 +443,26 @@ export const apiList = [
     requestType: 1,
     des: "今天吃什么"
   },
-
-  
+  // {
+  //   name: "逆天cos",
+  //   url: "https://api.qvqa.cn/cos?type=json",
+  //   type: 32,
+  //   requestType: 1,
+  //   des: "逆天cos"
+  // },
+  // {
+  //   name: "光剑合集",
+  //   url: "http://api.ovoe.top/API/gjbz.php",
+  //   type: 23,
+  //   requestType: 3,
+  //   des: "光剑合集"
+  // },
+    {
+    name: "慢摇系列",
+    url: "http://api.yujn.cn/api/manyao.php?type=video",
+    type: 23,
+    requestType: 3,
+    des: "慢摇系列"
+  },
+ 
 ]

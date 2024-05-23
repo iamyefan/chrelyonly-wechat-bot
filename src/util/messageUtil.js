@@ -203,10 +203,19 @@ export function myOnMessage(message, room, bot) {
         let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
         room.say(mp4, talker)
       } else if (apiItem.type === 24) {
-        let index = Math.floor(Math.random() * 35)
-        const fileBox = FileBox.fromUrl(res.data.images[index], "1.png")
-        console.log(fileBox, 'fileBox');
-        room.say(fileBox)
+        try {
+          let length = res.data.images.length
+          let index = Math.floor(Math.random() * length)
+          let index2 = Math.floor(Math.random() * length)
+          const fileBox =  FileBox.fromUrl(res.data.images[index], "1.png")
+          const fileBox2 = FileBox.fromUrl(res.data.images[index2], "2.png")
+          room.say('写真来了~', talker)
+          room.say(fileBox)
+          room.say(fileBox2)
+        } catch (error) {
+          console.log(error,'error');
+          room.say('获取写真失败', talker)
+        }
       } else if (apiItem.type === 25) {
         console.log(res.data, 'ddddd');
         room.say(res.data, talker)
@@ -225,10 +234,12 @@ export function myOnMessage(message, room, bot) {
         room.say(mp3)
       }
       else if (apiItem.type === 29) {
-        let img = FileBox.fromBuffer(res.data, "1.png")
-        room.say(img).catch(err=> {
-          console.log(err,'错误了');
-        })
+        try {
+          let img = FileBox.fromBuffer(res.data, "1.png")
+          room.say(img)
+        } catch (error) {
+          room.say('错误')
+        }
       }
       else if (apiItem.type ===30) {
         let mp3 = FileBox.fromUrl(res.data.music, "孙笑川说的话.mp3")
@@ -237,6 +248,16 @@ export function myOnMessage(message, room, bot) {
       else if (apiItem.type ===31) {
         let text = res.data.mealwhat
         room.say(text, talker)
+      }
+      else if (apiItem.type ===32) {
+        console.log(res.data,'dddd');
+        let mp4 =''
+        if(res.data.data.msg) {
+           mp4 = FileBox.fromUrl(res.data.data.msg, "22222.mp4")
+        }else {
+          mp4 = '获取失败'
+        }
+        room.say(mp4)
       }
     })
   }
@@ -257,7 +278,7 @@ const getAllApiName = () => {
 const getApi = (name) => {
   for (let i = 0; i < apiList.length; i++) {
     let item = apiList[i]
-    if (name.includes(item.name)) {
+    if (name.includes(item.name) && name.split('')[0] !== '#') {
       item.msg = name.split(item.name)[1].trim()
       if (!item.msg.trim()) {
         item.msg = "1172576293"

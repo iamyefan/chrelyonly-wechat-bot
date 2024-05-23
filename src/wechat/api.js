@@ -9,6 +9,8 @@ import { myOnMessage } from "../util/messageUtil.js";
 import { roomEventInit } from "../util/roomUtil.js";
 import { saveWaterGroups } from "../util/waterGroupsUtil.js";
 import { readImage } from '../util/ocr.js'
+import { http } from "../util/https.js";
+
 export function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
     // 在控制台显示二维码
@@ -47,7 +49,6 @@ export function onMessage(message, bot) {
       //     return;
       // }
       // 保存水群次数
-      log.info(res,'群的名字')
       saveWaterGroups(res, room, talker)
       let msg = message.text();
       if (msg === "") {
@@ -63,7 +64,7 @@ export function onMessage(message, bot) {
       if (txtType === 6) {
         // 保存缓存
         message.toFileBox().then(function (res) {
-          if(!rres.includes('SVIP内部群')) {
+          if(!rres.includes('SVIP内部群') && !rres.includes('非人类研究中心')) {
             readImage(res.buffer.toString("base64"), room , talker)
           }
           // const fileBox3 = FileBox.fromBase64(res.buffer.toString("base64"), '1.png')
@@ -143,8 +144,22 @@ room.say(text, talker)
           if(text) {
             room.say(text, talker)
           }
-        }
-
+        }else if(message.text().indexOf('#获取群成员信息') == 0) {
+         let all =  await room.memberAll()
+         let text = ``
+         for (let i = 0; i < all.length; i++) {
+          const item = all[i];
+text+=`
+${i+1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province() || '--'}, 个性签名: ${item.payload.signature ||  '--'}`
+         }
+         room.say(text, talker)
+    }else if(message.text().indexOf('不要涩涩噢11111') == 0) {
+      http('https://api.ovoe.top/API/sese.php?type=json', 'get', {}, 1).then(res=> {
+        console.log(res.data.url,'数据');
+        let img = FileBox.fromUrl(res.data.url, '111.png')
+        room.say(img)
+      })
+}
          else {
           setCache(message.id, JSON.stringify(cacheJson))
           // 自定义文本回复内容

@@ -4,14 +4,16 @@ console.log(new Date().Format("hh:mm:ss"))
 import { http } from "./https.js";
 import { FileBox } from "file-box";
 const listTime = [
+  "08:50:00",
   "09:09:00",
+  "09:10:00",
   "09:19:00",
   "10:00:00",
   "12:00:00",
   "21:50:00",
-  "23:40:10",
-  "23:40:30"
-
+  "22:22:22",
+  "23:40:30",
+  "23:11:11"
 ]
 let weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 let currentDate = new Date();
@@ -37,15 +39,17 @@ const saveTime = (bot) => {
       const now = new Date().Format("hh:mm:ss");
       const today = new Date().Format("yyyy-MM-dd hh:mm:ss");
       if (now == '09:09:00') {
-        room.say(`现在是${today},虹团的朋友们大家好, 宸宇的小助手即将为您播报今日热点新闻`)
+        room.say(`现在是${today} - ${dayOfWeek} ,虹团的朋友们大家好, 宸宇的小助手即将为您播报今日热点新闻`)
         http('https://api.yujn.cn/api/60SReadWorld.php', 'get', {}, 3).then(res => {
           let img = FileBox.fromBuffer(res.data, '2.png')
           room.say(img)
         })
-      } else if (now == '09:19:00') {
+      } else if (now == '09:19:00' || now == '22:22:22') {
         http(' http://api.yujn.cn/api/wyrp.php', 'get', {}, 1).then(res => {
-          let text = `现在是北京时间 ${today}-${dayOfWeek}, 宸宇的小助手为您摘抄每日网抑云,
-            ${res.data}
+          let text = `
+现在是北京时间 ${today}-${dayOfWeek}, 宸宇的小助手为您奉上每日网抑云,
+${res.data}
+祝你晚安好梦!
           `
           room.say(text)
         })
@@ -62,6 +66,28 @@ const saveTime = (bot) => {
         room.say('排位赛不要忘记报名咯!')
        }
       }
+    }
+  })
+  bot.Room.find({ topic: '🍓酱の后🌸园  SVIP内部群1' }).then(async (room) => {
+    if (room) {
+      const now = new Date().Format("hh:mm:ss");
+      const today = new Date().Format("yyyy-MM-dd");
+        if (now == '23:11:11') {
+        http(' http://api.yujn.cn/api/wyrp.php', 'get', {}, 1).then(res => {
+          let text = 
+`今天是${today}, 现在是北京时间晚上11点11分, 今天是${dayOfWeek}, 龙骑士的小助手为您奉上每日网抑云,
+${res.data}
+祝你晚安好梦!`
+          room.say(text)
+        })
+      }else  if (now == '09:10:00') {
+        const today = new Date().Format("yyyy-MM-dd");
+        room.say(`今天是${today}- ${dayOfWeek}, 现在是上午九点十分, 后花园的朋友们大家好, 龙骑士的小助手即将为您播报今日热点新闻`)
+        http('https://api.yujn.cn/api/60SReadWorld.php', 'get', {}, 3).then(res => {
+          let img = FileBox.fromBuffer(res.data, '2.png')
+          room.say(img)
+        })
+      } 
     }
   })
 }
