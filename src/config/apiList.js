@@ -1,11 +1,11 @@
 
 export const apiList = [
-  {
-    name: "表情包",
-    url: "https://api.lolimi.cn/API/bqb/api.php?type=动漫表情",
-    type: 3,
-    requestType: 3
-  },
+  // {
+  //   name: "表情包",
+  //   url: "https://api.lolimi.cn/API/bqb/api.php?type=动漫表情",
+  //   type: 3,
+  //   requestType: 3
+  // },
 
   // {
   //   name: "柴郡",
@@ -165,7 +165,7 @@ export const apiList = [
   //   des: "添+QQ号"
   // },
   {
-    name: "腿",
+    name: "看看腿",
     url: "https://api.lolimi.cn/API/meizi/api.php",
     type: 4,
     requestType: 1,
@@ -283,19 +283,19 @@ export const apiList = [
   // },
   {
     name: "白丝",
-    url: "http://api.yujn.cn/api/baisi.php",
-    type: 19,
+    url: "http://api.yujn.cn/api/baisis.php?type=video",
+    type: 23,
     requestType: 3,
     des: "我要看白丝"
   },
   {
     name: "黑丝",
-    url: " http://api.yujn.cn/api/heisi.php?",
-    type: 19,
+    url: "http://api.yujn.cn/api/heisis.php?type=video",
+    type: 23,
     requestType: 3,
     des: "我要看黑丝"
   },
- 
+
   {
     name: "狱卒",
     url: "http://api.yujn.cn/api/jpmt.php?type=video",
@@ -387,13 +387,14 @@ export const apiList = [
     requestType: 3,
     des: "欣赏古风"
   },
-  {
-    name: "看看写真",
-    url: "http://api.yujn.cn/api/dcd.php",
-    type: 24,
-    requestType: 1,
-    des: "看看写真"
-  },
+  // {
+  //   name: "看看写真",
+  //   url: "http://api.yujn.cn/api/dcd.php",
+  //   type: 24,
+  //   requestType: 1,
+  //   des: "看看写真"
+  // },
+  
   {
     name: "vivo50",
     url: "http://api.yujn.cn/api/kfc.php",
@@ -443,13 +444,13 @@ export const apiList = [
     requestType: 1,
     des: "今天吃什么"
   },
-  // {
-  //   name: "逆天cos",
-  //   url: "https://api.qvqa.cn/cos?type=json",
-  //   type: 32,
-  //   requestType: 1,
-  //   des: "逆天cos"
-  // },
+  {
+    name: "逆天cos",
+    url: "https://api.qvqa.cn/cos?type=json",
+    type: 32,
+    requestType: 1,
+    des: "逆天cos"
+  },
   // {
   //   name: "光剑合集",
   //   url: "http://api.ovoe.top/API/gjbz.php",
@@ -457,12 +458,55 @@ export const apiList = [
   //   requestType: 3,
   //   des: "光剑合集"
   // },
-    {
+
+  {
     name: "慢摇系列",
     url: "http://api.yujn.cn/api/manyao.php?type=video",
     type: 23,
     requestType: 3,
     des: "慢摇系列"
   },
+  {
+    name: "保安日记",
+    url: "https://api.yujn.cn/api/baoan.php?",
+    type: 7,
+    requestType: 1,
+    des: "保安日记"
+  },
+  {
+    name: "网抑云",
+    url: "http://api.yujn.cn/api/wyrp.php?",
+    type: 7,
+    requestType: 1,
+    des: "网抑云"
+  },
  
+  {
+    name: "历史上的今天",
+    url: "https://api.yujn.cn/api/lsjt.php?",
+    type: 34,
+    requestType: 1,
+    des: "历史上的今天"
+  },
+  {
+    name: "看看风景",
+    url: "http://api.yujn.cn/api/haibian.php?",
+    type: 23,
+    requestType: 3,
+    des: "看看风景"
+  },
+  {
+    name: "高能动漫",
+    url: "https://www.hhlqilongzhu.cn/api/MP4_dongman.php",
+    type: 35,
+    requestType: 3,
+    des: "高能动漫"
+  },
+  {
+    name: "查询天气",
+    url: "https://api.lolimi.cn/API/weather/",
+    type: 36,
+    requestType: 1,
+    des: "查询天气"
+  },
 ]

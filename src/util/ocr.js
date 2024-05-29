@@ -24,16 +24,22 @@ function setText(txtArr) {
       flag: false
     }
     let zmlFlag = arr.findIndex(item => item.includes('招募令'))
-    let xyzwFlag = arr.findIndex(item => item.includes('咸鱼之王'))
     let jzFlag = arr.findIndex(item => item.includes('金砖'))
     let qtbzFlag = arr.findIndex(item => item.includes('青铜宝箱'))
     let mzbzFlag = arr.findIndex(item => item.includes('木质宝箱'))
     let bjbxFlag = arr.findIndex(item => item.includes('铂金宝箱'))
     let jfFlag = arr.findIndex(item => item.includes('宝箱积分'))
     let yfFlag = arr.findIndex(item => item.includes('黄金鱼竿'))
-    let flag = { zmlFlag, xyzwFlag, jzFlag, qtbzFlag, mzbzFlag, bjbxFlag, jfFlag, yfFlag }
-    console.log(flag, 'flag');
+    let flag = { zmlFlag, jzFlag, qtbzFlag, mzbzFlag, bjbxFlag, jfFlag, yfFlag }
     let allTrue = Object.values(flag).every(item => item !== -1)
+    let pwArr = []
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (item.includes('总战力')) {
+        pwArr.push(item)
+      }
+    }
+    let pwFlag = pwArr.length == 10
     if (allTrue) {
       obj.flag = true
       let jfNum = 0
@@ -48,59 +54,59 @@ function setText(txtArr) {
       let jz = arr.find(item => item.includes('金砖'))
       let yf = arr.find(item => item.includes('黄金鱼竿'))
       let zml = arr.find(item => item.includes('招募令'))
-      let mzx =  arr.find(item => item.includes('木质宝箱'))
-      let qtx =  arr.find(item => item.includes('青铜宝箱'))
-      let hjx =  arr.find(item => item.includes('黄金宝箱'))
-      let bjx =  arr.find(item => item.includes('铂金宝箱'))
+      let mzx = arr.find(item => item.includes('木质宝箱'))
+      let qtx = arr.find(item => item.includes('青铜宝箱'))
+      let hjx = arr.find(item => item.includes('黄金宝箱'))
+      let bjx = arr.find(item => item.includes('铂金宝箱'))
       // 金砖
       if (jz.includes('万')) {
-        jzNum = (jz.split('×')[1] ||  jz.split('x')[1] || jz.split('X')[1]).split('万')[0] * 10000
+        jzNum = (jz.split('×')[1] || jz.split('x')[1] || jz.split('X')[1]).split('万')[0] * 10000
       } else {
-        jzNum = jz.split('×')[1] ||  jz.split('x')[1] || jz.split('X')[1]
+        jzNum = jz.split('×')[1] || jz.split('x')[1] || jz.split('X')[1]
       }
       if (jzNum < 250000) {
-        text =`
+        text = `
 金砖数量不足,缺少 ${(250000 - jzNum).toFixed(0)}个`
       } else {
-        text =`
+        text = `
 金砖已足够,已经超出 ${(jzNum - 250000).toFixed(0)}个`
       }
       // 鱼竿
-      ygNum = yf.split('x')[1] ||  yf.split('×')[1] ||  yf.split('X')[1]
+      ygNum = yf.split('x')[1] || yf.split('×')[1] || yf.split('X')[1]
       if (ygNum < 700) {
-text+=`
+        text += `
 鱼竿数量不足,缺少${(700 - ygNum).toFixed(0)}个`
       } else {
-text+=`
+        text += `
 鱼竿已足够,已经超出${(ygNum - 700).toFixed(0)}个`
       }
       // 招募令
-      zmlNum = zml.split('x')[1] ||  zml.split('×')[1] || zml.split('X')[1]
-      if(zmlNum < 3300) {
-text+=`
+      zmlNum = zml.split('x')[1] || zml.split('×')[1] || zml.split('X')[1]
+      if (zmlNum < 3300) {
+        text += `
 招募令数量不足,缺少${(3300 - zmlNum).toFixed(0)}个`
-      }else {
-text+=`
-招募令数量已足够,已经超出${(zmlNum - 3300).toFixed(0)}个`  
+      } else {
+        text += `
+招募令数量已足够,已经超出${(zmlNum - 3300).toFixed(0)}个`
       }
       // 宝箱
-      mzxNum = (mzx.split('x')[1] ||  mzx.split('×')[1] || mzx.split('X')[1]) * 1
-      qtxNum =( qtx.split('x')[1] ||  qtx.split('×')[1] ||  qtx.split('X')[1]) * 10
-      hjxNum = (hjx.split('x')[1] ||  hjx.split('×')[1] ||  hjx.split('X')[1]) * 20
-      bjxNum =(bjx.split('x')[1] ||  bjx.split('×')[1] ||  bjx.split('X')[1]) * 50
+      mzxNum = (mzx.split('x')[1] || mzx.split('×')[1] || mzx.split('X')[1]) * 1
+      qtxNum = (qtx.split('x')[1] || qtx.split('×')[1] || qtx.split('X')[1]) * 10
+      hjxNum = (hjx.split('x')[1] || hjx.split('×')[1] || hjx.split('X')[1]) * 20
+      bjxNum = (bjx.split('x')[1] || bjx.split('×')[1] || bjx.split('X')[1]) * 50
       bxjf = (mzxNum + qtxNum + hjxNum + bjxNum).toFixed(0)
-      if(bxjf <29580) {
+      if (bxjf < 29580) {
         let lun = ((29580 - bxjf) / 3480).toFixed(2)
         let num = (29580 - bxjf).toFixed(0)
-text+=`
+        text += `
 宝箱积分不足,缺少${lun}轮,约${num}积分)`
-      }else{
-        let lun = ((bxjf - 29580  ) / 3480).toFixed(2)
-        let num = (bxjf -29580).toFixed(0)
-text+=`
+      } else {
+        let lun = ((bxjf - 29580) / 3480).toFixed(2)
+        let num = (bxjf - 29580).toFixed(0)
+        text += `
 宝箱积分充足,超出${lun}轮,约${num}积分)`
       }
-text += `
+      text += `
 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 🐟 
 参考资源:金砖25万个,招募3300个,宝箱积分8.5轮(实际宝箱积分29580分),宝轮估算每轮3480积分(非酋算法),金鱼竿700个
 请根据实际情况分析
@@ -110,9 +116,71 @@ text += `
       `
       obj.text = text
       resolve(obj)
+    } else if (pwFlag) {
+      obj.flag = true
+      let a1 = setZZLText(pwArr[0], 'a1')
+      let a2 = setZZLText(pwArr[1], 'a2')
+      let b1 = setZZLText(pwArr[2], 'b1')
+      let b2 = setZZLText(pwArr[3], 'b2')
+      let c1 = setZZLText(pwArr[4], 'c1')
+      let c2 = setZZLText(pwArr[5], 'c2')
+      let d1 = setZZLText(pwArr[6], 'd1')
+      let d2 = setZZLText(pwArr[7], 'd2')
+      let e1 = setZZLText(pwArr[8], 'e1')
+      let e2 = setZZLText(pwArr[9], 'e2')
+      text =
+        `
+排位赛对阵识别预计对阵结果:
+✅ 第一种: 大师以下
+周4️⃣:
+${a1} 🆚 ${c2}
+${b1} 🆚 ${a2}
+周5️⃣:
+${a1} 🆚 ${b2}
+${c1} 🆚 ${a2}
+------------------------------
+✅ 第二种: 大师
+周4️⃣:
+${a1} 🆚 ${e2}
+${e1} 🆚 ${a2}
+周5️⃣:
+${a1} 🆚 ${e1}
+${a2} 🆚 ${e2}
+------------------------------
+提示: 只能识别周三的排位对战截图,请勿发其他的对战截图
+以上数据均为估算,或许存在一定偏差,具体还请以实际对战为准!
+------------------------------
+`
+      obj.text = text
+      resolve(obj)
+      console.log(pwArr, '排位');
     } else {
       resolve(obj)
     }
 
   })
+}
+function setZZLText(text, position) {
+  let str = ''
+  let positionObj = {
+    a1: '左一',
+    a2: '右一',
+    b1: '左二',
+    b2: '右二',
+    c1: '左三',
+    c2: '右三',
+    d1: '左四',
+    d2: '右四',
+    e1: '左五',
+    e2: '右五',
+  }
+  if (text.includes('总战力:')) {
+    str = text.split(':')[1]
+  } else if (text.includes('总战力：')) {
+    str = text.split('：')[1]
+  } else {
+    str = text
+  }
+  str = positionObj[position] + ' ' + str
+  return str
 }

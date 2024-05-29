@@ -64,8 +64,8 @@ export function onMessage(message, bot) {
       if (txtType === 6) {
         // 保存缓存
         message.toFileBox().then(function (res) {
-          if(!rres.includes('SVIP内部群') && !rres.includes('非人类研究中心')) {
-            readImage(res.buffer.toString("base64"), room , talker)
+          if (!rres.includes('SVIP内部群') && !rres.includes('非人类研究中心')) {
+            readImage(res.buffer.toString("base64"), room, talker)
           }
           // const fileBox3 = FileBox.fromBase64(res.buffer.toString("base64"), '1.png')
           let cacheJson = {
@@ -97,18 +97,21 @@ export function onMessage(message, bot) {
         if (message.text().includes('@ㅤ龙骑士的龙')) {
           let talker = message.talker()
           room.say('艾特你龙爹干啥!!!!', talker)
-        }else if(message.text().includes('金色水晶')) {
+        } else if (message.text().includes('金色水晶')) {
           const fileBox = FileBox.fromFile("./src/img/jssj.jpg")
           room.say(fileBox)
-        }else if(message.text().includes('俱乐部击杀奖励')) {
+        } else if (message.text().includes('俱乐部击杀奖励')) {
           const fileBox = FileBox.fromFile("./src/img/boss.jpg")
           room.say(fileBox)
-        }else if (message.text().includes('兑换码')) {
+        } else if (message.text().includes('看看胖凯')) {
+          const fileBox = FileBox.fromFile("./src/img/lk.jpg")
+          // room.say(fileBox)
+        } else if (message.text().includes('兑换码')) {
           let text = `
 taptap666、VIP666、vip666、XY888、QQXY888、happy666、HAPPY666、xyzwgame666、douyin666、douyin777、douyin888、huhushengwei888、APP666、app666`
-room.say(text, talker)
-        }else if(message.text().includes('速度')) {
-          let  sdObj = {
+          room.say(text, talker)
+        } else if (message.text().includes('速度')) {
+          let sdObj = {
             '查询曹仁速度': `
 曹仁速度参考:
 1级速度（不带玩具没有科技）: 10
@@ -119,7 +122,7 @@ room.say(text, talker)
 淬炼速度: 0
 速度同心（6/7.5/9/12/15）: 0
 最终速度: 13995`,
-'查询甄姬速度':`
+            '查询甄姬速度': `
 甄姬速度参考:
 1级速度（不带玩具没有科技）: 12
 6000级速度（查图鉴）: 2819
@@ -129,7 +132,7 @@ room.say(text, talker)
 淬炼速度: 0
 速度同心（6/7.5/9/12/15）: 0
 最终速度: 10013`,
-'查询郭嘉速度':`
+            '查询郭嘉速度': `
 郭嘉速度参考:
 1级速度（不带玩具没有科技）: 12
 6000级速度（查图鉴）: 3201
@@ -139,28 +142,40 @@ room.say(text, talker)
 淬炼速度: 0
 速度同心（6/7.5/9/12/15）: 0
 最终速度: 14522`,
-}
+          }
           let text = sdObj[message.text()]
-          if(text) {
+          if (text) {
             room.say(text, talker)
           }
-        }else if(message.text().indexOf('#获取群成员信息') == 0) {
-         let all =  await room.memberAll()
-         let text = ``
-         for (let i = 0; i < all.length; i++) {
-          const item = all[i];
-text+=`
-${i+1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province() || '--'}, 个性签名: ${item.payload.signature ||  '--'}`
-         }
-         room.say(text, talker)
-    }else if(message.text().indexOf('不要涩涩噢11111') == 0) {
-      http('https://api.ovoe.top/API/sese.php?type=json', 'get', {}, 1).then(res=> {
-        console.log(res.data.url,'数据');
-        let img = FileBox.fromUrl(res.data.url, '111.png')
-        room.say(img)
-      })
-}
-         else {
+        } else if (message.text().indexOf('#获取群成员信息') == 0) {
+          let all = await room.memberAll()
+          let text = ``
+          for (let i = 0; i < all.length; i++) {
+            const item = all[i];
+            text += `
+${i + 1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province() || '--'}, 个性签名: ${item.payload.signature || '--'}`
+          }
+          room.say(text, talker)
+        } else if (message.text().indexOf('写给阳妹的话') == 0) {
+          console.log(talker, 'talker');
+          http('http://api.yujn.cn/api/wenrou.php?', 'get', {}, 1).then(res => {
+            console.log(res.data, '数据');
+            let name = talker.name()
+            if (h.id == '@176152cc55c74af3e627186460fee5d797bd49e3fe5c4bf53565033d0e634920') {
+              room.say(res.data, talker)
+            }
+          })
+        } else if (message.text().indexOf('随机诱惑') == 0) {
+          http('http://api.yujn.cn/api/yht.php?type=image', 'get', {}, 3).then(res => {
+            console.log(res.data, '数据');
+            let img =FileBox.fromBuffer(res.data, '1.png')
+            room.say(img)
+            
+          })
+          // room.say('不准色色', talker)
+          // room.say('试试就试试', ...contactList)
+        }
+        else {
           setCache(message.id, JSON.stringify(cacheJson))
           // 自定义文本回复内容
           myOnMessage(message, room, bot)
@@ -187,7 +202,11 @@ ${i+1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province() 
             let oldMsg = JSON.parse(cacheTxt)
             // 回复文本
             if (oldMsg.type === 7) {
-              room.say(text + ",撤回的消息是:[ " + oldMsg.text + " ]")
+              if (talker.id != '@15370b360c654483f1f22637bc1f10bac242d046391babda46c536a6cafde025') {
+                room.say(text + ",撤回的消息是:[ " + oldMsg.text + " ]")
+              }else {
+                room.say('南悦大人撤回了一条消息,但是我不敢拦截')
+              }
             }
             // // 回复表情包
             // if (oldMsg.type === 5){
@@ -201,8 +220,13 @@ ${i+1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province() 
               // 从xml中解析图片地址
               let base64 = oldMsg.text;
               let fileBox = FileBox.fromBase64(base64, "temp.png");
-              room.say(text + ",撤回的消息是:")
-              room.say(fileBox)
+              if (talker.id != '@15370b360c654483f1f22637bc1f10bac242d046391babda46c536a6cafde025') {
+                room.say(text + ",撤回的消息是:")
+                room.say(fileBox)
+              }else {
+                room.say('南悦大人撤回了一张图片,但是我不敢拦截')
+              }
+
             }
           }
         }
@@ -220,7 +244,7 @@ export function onError(msg) {
   log.info("启动失败,请检查是否实名,是否绑定手机号,是否绑定银行卡")
   console.log(msg)
   // 停止node
-  process.exit()
+  // process.exit()
 }
 function transformArrayBufferToBase64(buffer) {
   var binary = '';
