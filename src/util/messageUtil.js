@@ -64,12 +64,18 @@ export function myOnMessage(message, room, bot) {
           }
         }
         params.rgb1 = 2
-      }else if (apiItem.type == 36) {
-        params ={
+      } else if (apiItem.type == 36) {
+        params = {
           city: apiItem.msg
         }
-        console.log(params,'params');
-      }  else {
+        console.log(params, 'params');
+      } else if (apiItem.type == 37) {
+        params = {
+          name: apiItem.msg,
+          type: 'aqq',
+          mos: 'json'
+        }
+      } else {
         params = {
           "QQ": apiItem.msg,
           "name": apiItem.msg,
@@ -86,7 +92,7 @@ export function myOnMessage(message, room, bot) {
       } else if (apiItem.type === 2) {
         room.say(res.data.data.output, talker)
       } else if (apiItem.type === 3) {
-        console.log(res.data,'moyu');
+        console.log(res.data, 'moyu');
         const fileBox = FileBox.fromBuffer(res.data, "2222.png")
         room.say(fileBox)
       } else if (apiItem.type === 4) {
@@ -179,8 +185,14 @@ export function myOnMessage(message, room, bot) {
           `, talker)
       } else if (apiItem.type === 16) {
 
-        let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
-        room.say(mp4, talker)
+        // let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
+        let img = FileBox.fromBuffer(res.data, "1.png")
+        room.say(img, talker)
+      } else if (apiItem.type === 16.5) {
+
+        // let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
+        let img = FileBox.fromBuffer(res.data, "原神KFC语录.mp3")
+        room.say(img, talker)
       } else if (apiItem.type === 17) {
         let talkerS = talker
         let data = res.data
@@ -220,7 +232,7 @@ export function myOnMessage(message, room, bot) {
         // let mp4 = FileBox.fromBuffer(res.data, "23333.mp4")
         // room.say(mp4)
       } else if (apiItem.type === 20 || apiItem.type === 21) {
-          console.log(res.data,'数据');
+        console.log(res.data, '数据');
         let mp4 = FileBox.fromBuffer(res.data, "1.mp4")
 
         room.say(mp4, talker)
@@ -289,13 +301,13 @@ export function myOnMessage(message, room, bot) {
       else if (apiItem.type === 34) {
         console.log(res.data, 'dddd');
         let arr = res.data.msg.list || []
-        let text = 
-`
+        let text =
+          `
 `
         for (let i = 0; i < arr.length; i++) {
           const item = arr[i];
-          text+=
-`${i+1}、${item}
+          text +=
+            `${i + 1}、${item}
 `
         }
         room.say(text, talker)
@@ -312,13 +324,13 @@ export function myOnMessage(message, room, bot) {
       }
       else if (apiItem.type === 36) {
         let data = res.data.data
-        console.log(res.data,'天气数据');
+        console.log(res.data, '天气数据');
         let text = ''
-        if(data && data.city) {
-let current = data.current
-let living = data.living
-text = 
-`
+        if (data && data.city) {
+          let current = data.current
+          let living = data.living
+          text =
+            `
 查询城市: ${data.city}
 城市英文名字: ${data.cityEnglish}
 今日天气情况: ${data.weather}
@@ -334,29 +346,55 @@ text =
 当前大气能见度: ${current.visibility}
 空气质量: ${setAir(Number(current.air))}
 最后更新时间: ${current.date}-${current.time}`
-if(living && living.length > 0) {
-  text+= 
-`
+          if (living && living.length > 0) {
+            text +=
+              `
 ---------------------`
- for (let i = 0; i < living.length; i++) {
-  const item = living[i];
-  text+= 
-`
+            for (let i = 0; i < living.length; i++) {
+              const item = living[i];
+              text +=
+                `
 ${item.name}: ${item.index} 小提示: ${item.tips}`
- }
-}
-text += 
-`
+            }
+          }
+          text +=
+            `
 ---------------------
  数据来源于网络, 仅供参考,祝生活愉快, 事事顺心~ 😁
 `
 
-        }else {
-          text  = res.data.text || '你说的这个城市是正经的吗?'
+        } else {
+          text = res.data.text || '你说的这个城市是正经的吗?'
         }
-        room.say(text,talker)
+        room.say(text, talker)
         // let mp4 = FileBox.fromBuffer(res.data, "22222.mp4")
         // room.say(mp4)
+      } if (apiItem.type === 37) {
+        console.log(res.data);
+        let datas = res.data.data
+        let {
+          name,
+          alias,
+          platform,
+          guobiao,
+          provincePower,
+          province,
+          city,
+          cityPower,
+          area,
+          areaPower,
+          updatetime
+        } = datas
+        let text =
+`查询英雄: ${name}
+学名: ${alias}
+查询大区: ${platform}
+国标最低战力: ${guobiao}
+省标最低战力: ${provincePower}(${province})
+市标最低战力: ${cityPower}(${city})
+县标最低战力: ${areaPower}(${area})
+最后更新时间: ${updatetime}
+`
       }
     })
   }
@@ -389,19 +427,19 @@ const getApi = (name) => {
 }
 function setAir(air) {
   let text = ''
-  if(air <=50) {
+  if (air <= 50) {
     text = '优'
-  }else if (air <=100) {
+  } else if (air <= 100) {
     text = '良'
-  }else if (air <=150) {
+  } else if (air <= 150) {
     text = '轻度污染'
-  }else if (air <=200) {
+  } else if (air <= 200) {
     text = '中度污染'
-  }else if (air <=300) {
+  } else if (air <= 300) {
     text = '重度污染'
-  }else if (air >300) {
+  } else if (air > 300) {
     text = '严重污染'
-  }else {
+  } else {
     text = '查不到,仙界吗?'
   }
   return text

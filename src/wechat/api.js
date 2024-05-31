@@ -161,7 +161,8 @@ ${i + 1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province(
           http('http://api.yujn.cn/api/wenrou.php?', 'get', {}, 1).then(res => {
             console.log(res.data, '数据');
             let name = talker.name()
-            if (h.id == '@176152cc55c74af3e627186460fee5d797bd49e3fe5c4bf53565033d0e634920') {
+            console.log(name,'name');
+            if (name == '宸宇') {
               room.say(res.data, talker)
             }
           })

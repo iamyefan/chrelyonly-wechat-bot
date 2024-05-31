@@ -269,11 +269,24 @@ export const apiList = [
     requestType: 3,
   },
   {
-    name: "原神启动",
-    url: "https://api.lolimi.cn/API/xjj/xjj.php",
+    name: "原神cos",
+    url: "http://api.yujn.cn/api/yscos.php??",
     type: 16,
     requestType: 3,
   },
+  {
+    name: "原神启动",
+    url: "http://api.yujn.cn/api/ys.php??",
+    type: 16,
+    requestType: 3,
+  },
+  {
+    name: "原神KFC语录",
+    url: "http://api.yujn.cn/api/yskfc.php?",
+    type: 16.5,
+    requestType: 3,
+  },
+
   // {
   //   name: "抖音搜索",
   //   url: "https://api.lolimi.cn/API/douyin/sous.php",
@@ -394,7 +407,7 @@ export const apiList = [
   //   requestType: 1,
   //   des: "看看写真"
   // },
-  
+
   {
     name: "vivo50",
     url: "http://api.yujn.cn/api/kfc.php",
@@ -480,7 +493,7 @@ export const apiList = [
     requestType: 1,
     des: "网抑云"
   },
- 
+
   {
     name: "历史上的今天",
     url: "https://api.yujn.cn/api/lsjt.php?",
@@ -500,13 +513,29 @@ export const apiList = [
     url: "https://www.hhlqilongzhu.cn/api/MP4_dongman.php",
     type: 35,
     requestType: 3,
-    des: "高能动漫"
+    des: "高能动漫",
+
   },
   {
     name: "查询天气",
     url: "https://api.lolimi.cn/API/weather/",
     type: 36,
     requestType: 1,
-    des: "查询天气"
+    des: "查询天气+城市 例如查询天气北京"
   },
+  {
+    name: "查询王者英雄",
+    url: "https://api.lolimi.cn/API/wangzhe/",
+    type: 37,
+    requestType: 1,
+    des: "查询王者英雄战力 例如:查询王者英雄李信"
+    
+  }
+  // {
+  //   name: "AI解梦",
+  //   url: "https://api.52vmy.cn/api/chat/dream",
+  //   type: 37,
+  //   requestType: 1,
+  //   des: "AI解梦+梦到什么 例如AI解梦梦到鲲鲲",
+  // },
 ]
