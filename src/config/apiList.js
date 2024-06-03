@@ -524,12 +524,18 @@ export const apiList = [
     des: "查询天气+城市 例如查询天气北京"
   },
   {
-    name: "查询王者英雄",
+    name: "查询QQ王者英雄",
     url: "https://api.lolimi.cn/API/wangzhe/",
     type: 37,
     requestType: 1,
-    des: "查询王者英雄战力 例如:查询王者英雄李信"
-    
+    des: "查询QQ大区王者英雄拿标战力 例如:查询QQ王者英雄李信"
+  },
+  {
+    name: "查询微信王者英雄",
+    url: "https://api.lolimi.cn/API/wangzhe/",
+    type: 38,
+    requestType: 1,
+    des: "查询微信大区王者英雄拿标战力 例如:查询微信王者英雄李信"
   }
   // {
   //   name: "AI解梦",

@@ -175,6 +175,39 @@ ${i + 1}: ${item.name()} 城市: ${item.city() || '--'} 省份: ${item.province(
           })
           // room.say('不准色色', talker)
           // room.say('试试就试试', ...contactList)
+        }else if ((message.text().indexOf('抖音') >-1 || message.text().indexOf('快手') >-1 || message.text().indexOf('小红书') >-1 ||  message.text().indexOf('【小红书】') >-1 || message.text().indexOf('西瓜视频') >-1) && (message.text().indexOf('https') >-1 || message.text().indexOf('http') >-1) ) {
+          let urlIndex =  message.text().indexOf('http')
+          let url = ''
+          if(message.text().indexOf('小红书') >-1) {
+            url =  message.text().substring(urlIndex).split('，')[0]
+            if(url.indexOf('https') == -1) {
+              url = url.replace("http","https");
+            }
+          }else {
+            url = message.text().substring(urlIndex)
+          }
+        
+          console.log(url,'视频链接');
+          let reqUrl = `https://api.yujn.cn/api/dspjx.php?type=json&url=${url}`
+          http(reqUrl, 'get', {}, 1).then(async(res) => {
+            console.log(res.data, '数据');
+            // let img =FileBox.fromBuffer(res.data, '1.png')
+            // room.say(img)
+            if(res.data.code == 200) {
+              if(res.data.data.video) {
+                let mp4 = await FileBox.fromUrl(res.data.data.video, '1.mp4')
+                let text = res.data.data.title + '--' + '解析成功!'
+                room.say(text, talker)
+                room.say(mp4)
+              }
+            }else {
+              room.say(res.data.data.title || '视频解析失败', talker)
+            }
+          })
+            
+          // })
+          // room.say('不准色色', talker)
+          // room.say('试试就试试', ...contactList)
         }
         else {
           setCache(message.id, JSON.stringify(cacheJson))

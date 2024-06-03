@@ -75,6 +75,12 @@ export function myOnMessage(message, room, bot) {
           type: 'aqq',
           mos: 'json'
         }
+      } else if (apiItem.type == 38) {
+        params = {
+          name: apiItem.msg,
+          type: 'awx',
+          mos: 'json'
+        }
       } else {
         params = {
           "QQ": apiItem.msg,
@@ -246,7 +252,7 @@ export function myOnMessage(message, room, bot) {
           setTimeout(async () => {
             let length = res.data.image_count
             let index = Math.floor(Math.random() * length)
-            const fileBox = await FileBox.fromUrl(res.data.images[index], "1.png")
+            const fileBox = await FileBox.fromUrl(res.data.images[index]+'?v='+ +new Date(), "1.png")
             room.say('写真来了~', talker)
             room.say(fileBox)
           }, 0);
@@ -369,24 +375,25 @@ ${item.name}: ${item.index} 小提示: ${item.tips}`
         room.say(text, talker)
         // let mp4 = FileBox.fromBuffer(res.data, "22222.mp4")
         // room.say(mp4)
-      } if (apiItem.type === 37) {
+      }else if (apiItem.type === 37 || apiItem.type === 38) {
         console.log(res.data);
-        let datas = res.data.data
-        let {
-          name,
-          alias,
-          platform,
-          guobiao,
-          provincePower,
-          province,
-          city,
-          cityPower,
-          area,
-          areaPower,
-          updatetime
-        } = datas
-        let text =
-`查询英雄: ${name}
+        if (res.data.code == 200) {
+          let datas = res.data.data
+          let {
+            name,
+            alias,
+            platform,
+            guobiao,
+            provincePower,
+            province,
+            city,
+            cityPower,
+            area,
+            areaPower,
+            updatetime
+          } = datas
+          let text =
+            `查询英雄: ${name}
 学名: ${alias}
 查询大区: ${platform}
 国标最低战力: ${guobiao}
@@ -395,6 +402,11 @@ ${item.name}: ${item.index} 小提示: ${item.tips}`
 县标最低战力: ${areaPower}(${area})
 最后更新时间: ${updatetime}
 `
+          room.say(text, talker)
+        } else {
+          room.say(res.data, talker)
+        }
+
       }
     })
   }
